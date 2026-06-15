@@ -1,0 +1,230 @@
+.rooms {
+  background: var(--dark-2);
+  position: relative;
+}
+
+.rooms::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-20), transparent);
+}
+
+.section-header {
+  margin-bottom: 60px;
+}
+
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+.room-card {
+  background: var(--dark-3);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.room-card:hover {
+  border-color: rgba(201,168,76,0.25);
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.1);
+}
+
+.room-image-area {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.room-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a26 0%, #0f0f1a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.room-placeholder-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 1;
+}
+
+.room-type-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: rgba(201,168,76,0.3);
+  letter-spacing: 2px;
+}
+
+.room-size-label {
+  font-family: 'Lato', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.2);
+  text-transform: uppercase;
+}
+
+.room-accent {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.room-accent.top-right { top: -20px; right: -20px; }
+.room-accent.bottom-left { bottom: -20px; left: -20px; }
+.room-accent.top-left { top: -20px; left: -20px; }
+
+.room-tag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 5px 14px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--dark);
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+.room-body {
+  padding: 28px;
+}
+
+.room-meta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 14px;
+}
+
+.room-guests, .room-sqft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--white-50);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.room-guests svg, .room-sqft svg {
+  opacity: 0.5;
+}
+
+.room-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.room-desc {
+  font-size: 0.9rem;
+  color: var(--white-50);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.room-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.room-feature {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: var(--white-05);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 2px;
+  font-size: 11px;
+  color: var(--white-80);
+  letter-spacing: 0.5px;
+}
+
+.room-feature svg {
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.room-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.room-price {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.price-from {
+  font-size: 11px;
+  color: var(--white-50);
+  letter-spacing: 1px;
+}
+
+.price-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.price-period {
+  font-size: 11px;
+  color: var(--white-50);
+}
+
+.room-book-btn {
+  padding: 10px 22px;
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.4);
+  color: var(--gold);
+  font-family: 'Lato', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.room-book-btn:hover {
+  background: var(--gold);
+  color: var(--dark);
+  border-color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  .rooms-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,136 @@
+.about {
+  background: var(--dark);
+  position: relative;
+  overflow: hidden;
+}
+
+.about::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-text {
+  font-size: 1rem;
+  color: var(--white-50);
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+.about-highlight {
+  display: flex;
+  gap: 18px;
+  align-items: stretch;
+  margin: 32px 0 40px;
+}
+
+.highlight-bar {
+  width: 3px;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.about-highlight blockquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--white-80);
+  font-style: normal;
+  line-height: 1.6;
+}
+
+.about-highlight blockquote em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.about-numbers {
+  display: flex;
+  gap: 40px;
+}
+
+.about-number {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.an-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.an-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-50);
+}
+
+.about-right {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.value-card {
+  display: flex;
+  gap: 18px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 3px;
+  background: var(--dark-3);
+  transition: all 0.3s ease;
+  align-items: flex-start;
+}
+
+.value-card:hover {
+  border-color: rgba(201,168,76,0.2);
+  background: var(--dark-4);
+}
+
+.value-icon {
+  color: var(--gold);
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.value-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+.value-desc {
+  font-size: 0.85rem;
+  color: var(--white-50);
+  line-height: 1.65;
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+}
