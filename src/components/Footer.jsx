@@ -1,9 +1,18 @@
-import { Link } from 'react-scroll'
+import { Link } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import './Footer.css'
 
 function Footer() {
   const year = new Date().getFullYear()
+
+  const navLinks = [
+    { to: '/', label: 'Home' },
+    { to: '/rooms', label: 'Rooms' },
+    { to: '/amenities', label: 'Amenities' },
+    { to: '/gallery', label: 'Gallery' },
+    { to: '/about', label: 'About' },
+    { to: '/contact', label: 'Contact' },
+  ]
 
   return (
     <footer className="footer">
@@ -16,7 +25,7 @@ function Footer() {
                 Luxury service apartments crafted for those who expect more. Your home away from home in the heart of Oragadam, Chennai.
               </p>
               <a
-                href="https://wa.me/91XXXXXXXXXX?text=Hi, I'd like to book a stay at Rockfort Stay Inn"
+                href="https://wa.me/918220757067?text=Hi, I'd like to book a stay at Rockfort Stay Inn"
                 target="_blank"
                 rel="noreferrer"
                 className="footer-whatsapp"
@@ -31,10 +40,10 @@ function Footer() {
             <div className="footer-nav-col">
               <h4 className="footer-heading">Navigate</h4>
               <ul>
-                {['home','rooms','amenities','gallery','about','contact'].map(link => (
-                  <li key={link}>
-                    <Link to={link} smooth={true} duration={700} offset={-80}>
-                      {link.charAt(0).toUpperCase() + link.slice(1)}
+                {navLinks.map(link => (
+                  <li key={link.to}>
+                    <Link to={link.to}>
+                      {link.label}
                     </Link>
                   </li>
                 ))}
@@ -44,11 +53,11 @@ function Footer() {
             <div className="footer-nav-col">
               <h4 className="footer-heading">Rooms</h4>
               <ul>
-                <li><span>Studio Suite</span></li>
-                <li><span>1 Bedroom Suite</span></li>
-                <li><span>2 Bedroom Suite</span></li>
-                <li><span>Long Stay Packages</span></li>
-                <li><span>Corporate Stays</span></li>
+                <li><Link to="/rooms">1BHK Deluxe</Link></li>
+                <li><Link to="/rooms">2BHK Luxury</Link></li>
+                <li><Link to="/rooms">Executive Suite</Link></li>
+                <li><Link to="/rooms">Long Stay Packages</Link></li>
+                <li><Link to="/rooms">Corporate Stays</Link></li>
               </ul>
             </div>
 
@@ -65,13 +74,13 @@ function Footer() {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z"/>
                   </svg>
-                  +91 XXXXXXXXXX
+                  +91 82207 57067
                 </li>
                 <li>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
                   </svg>
-                  info@rockfortstayinn.com
+                  karthik@rockfortstayinn.com
                 </li>
               </ul>
             </div>

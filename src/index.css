@@ -1,17 +1,20 @@
 :root {
-  --gold: #C9A84C;
-  --gold-light: #E8C97A;
-  --gold-dark: #9A7A2E;
-  --dark: #0a0a0f;
-  --dark-2: #111118;
-  --dark-3: #1a1a26;
-  --dark-4: #22222f;
-  --white: #ffffff;
-  --white-80: rgba(255,255,255,0.8);
-  --white-50: rgba(255,255,255,0.5);
-  --white-20: rgba(255,255,255,0.2);
-  --white-10: rgba(255,255,255,0.1);
-  --white-05: rgba(255,255,255,0.05);
+  --primary: #543b59;
+  --primary-light: #6e4e75;
+  --primary-dark: #3a293e;
+  --gold: #b28622;
+  --gold-light: #d4a742;
+  --gold-dark: #8c6819;
+  --dark: #3a293e; /* Replaced black with very dark plum */
+  --dark-2: #543b59; /* Replaced dark grey with primary plum */
+  --dark-3: #6e4e75;
+  --dark-4: #4a354f;
+  --white: #fdfbf7;
+  --white-80: rgba(253,251,247,0.8);
+  --white-50: rgba(253,251,247,0.5);
+  --white-20: rgba(253,251,247,0.2);
+  --white-10: rgba(253,251,247,0.1);
+  --white-05: rgba(253,251,247,0.05);
   --gold-10: rgba(201,168,76,0.1);
   --gold-20: rgba(201,168,76,0.2);
   --font-display: 'Playfair Display', Georgia, serif;
