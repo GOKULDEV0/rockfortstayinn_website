@@ -183,11 +183,11 @@
   color: var(--white-50);
   line-height: 1.7;
   margin-bottom: 20px;
-  flex: 1;
 }
 
 /* Features */
 .room-features {
+  margin-top: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;

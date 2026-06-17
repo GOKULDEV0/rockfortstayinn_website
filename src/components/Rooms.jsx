@@ -25,7 +25,7 @@ const rooms = [
     desc: 'Two private bedrooms in our apartment, with the hall and kitchen as shared common areas. Great for two colleagues from the same company staying together.',
     size: '2 Private Bedrooms',
     guests: '2-4 Guests',
-    price: 'Contact Us',
+    price: '₹ 2000',
     period: '/ month',
     features: ['2 Private Bedrooms', 'Shared Hall', 'Shared Kitchen', '2 ACs', 'Smart TV', 'High-Speed Wi-Fi'],
     tag: 'Great for Colleagues',
