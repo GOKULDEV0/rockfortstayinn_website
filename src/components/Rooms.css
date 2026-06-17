@@ -85,12 +85,12 @@
 .rooms-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  background: rgba(178,134,34,0.1);
+  gap: 24px;
 }
 
 .room-card {
   background-color: var(--dark);
+  border-radius: 4px;
   overflow: hidden;
   transition: all 0.4s ease;
   display: flex;
@@ -183,6 +183,10 @@
   color: var(--white-50);
   line-height: 1.7;
   margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Features */
