@@ -187,7 +187,6 @@
 
 /* Features */
 .room-features {
-  margin-top: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -214,6 +213,7 @@
 
 /* Footer */
 .room-footer {
+  margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;

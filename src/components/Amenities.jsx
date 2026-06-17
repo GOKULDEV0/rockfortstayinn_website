@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion'
 import './Amenities.css'
 
 const amenities = [
+  { icon: '🥐', title: 'Free Breakfast', desc: 'Complimentary morning breakfast for all guests. Other meals are available on a paid basis.' },
   { icon: '🛜', title: 'High-Speed Wi-Fi', desc: 'Blazing fast internet for work calls, streaming, and daily use — always reliable.' },
   { icon: '❄️', title: 'Air Conditioning', desc: 'Individual AC units in every private bedroom for perfect personal comfort.' },
   { icon: '📺', title: 'Smart TV', desc: 'Premium Smart TV in the shared hall — Netflix, Prime, and all OTT platforms.' },
