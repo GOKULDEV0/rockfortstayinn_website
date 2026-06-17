@@ -163,6 +163,8 @@
   border-bottom: 3px solid transparent;
   transition: all 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
 .room-teaser-card:hover {
@@ -197,6 +199,7 @@
   color: var(--white-50);
   line-height: 1.7;
   margin-bottom: 24px;
+  flex: 1;
 }
 
 .rtc-features {
