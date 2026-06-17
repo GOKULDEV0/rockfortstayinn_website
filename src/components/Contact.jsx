@@ -37,7 +37,7 @@ function Contact() {
       ),
       label: 'Address',
       value: 'Hirondini Park, Oragadam Industrial Corridor, Chennai — 602 105',
-      href: 'https://maps.google.com/?q=Hirondini+Park+Oragadam+Chennai',
+      href: 'https://maps.app.goo.gl/Ph5QfHFsaHPzfzqd6',
     },
     {
       icon: (
@@ -139,7 +139,7 @@ function Contact() {
                   </div>
                 </div>
                 <a
-                  href="https://maps.google.com/?q=Hirondini+Park+Oragadam+Chennai"
+                  href="https://maps.app.goo.gl/Ph5QfHFsaHPzfzqd6"
                   target="_blank"
                   rel="noreferrer"
                   className="map-link"
