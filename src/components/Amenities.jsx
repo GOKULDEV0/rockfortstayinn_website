@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import './Amenities.css'
+
 
 const amenities = [
   { icon: '🥐', title: 'Free Breakfast', desc: 'Complimentary morning breakfast for all guests. Other meals are available on a paid basis.' },

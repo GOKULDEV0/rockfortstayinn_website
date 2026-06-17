@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import logo from '../assets/logo.png'
-import './Navbar.css'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -15,7 +15,7 @@ const navLinks = [
 function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const location = useLocation()
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60)
@@ -27,8 +27,8 @@ function Navbar() {
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
         <div className="nav-logo">
-          <Link to="/">
-            <img src={logo} alt="Rockfort Stay Inn Logo" />
+          <Link href="/">
+            <img src="/logo.png" alt="Rockfort Stay Inn Logo" />
           </Link>
         </div>
 
@@ -36,8 +36,8 @@ function Navbar() {
           {navLinks.map(link => (
             <li key={link.to}>
               <Link
-                to={link.to}
-                className={location.pathname === link.to ? 'active' : ''}
+                href={link.to}
+                className={router.pathname === link.to ? 'active' : ''}
                 onClick={() => setMenuOpen(false)}
               >
                 {link.label}

@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import './About.css'
+
 
 const values = [
   { icon: '✦', title: 'Flexible Accommodation', desc: 'Book one room, two rooms, or the entire 3-bedroom apartment. You only pay for what you need — no more, no less.' },

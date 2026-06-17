@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom'
-import logo from '../assets/logo.png'
-import './Footer.css'
+import Link from 'next/link'
+
 
 function Footer() {
   const year = new Date().getFullYear()
@@ -20,7 +19,9 @@ function Footer() {
         <div className="container">
           <div className="footer-grid">
             <div className="footer-brand">
-              <img src={logo} alt="Rockfort Stay Inn" className="footer-logo" />
+              <Link href="/">
+                <img src="/logo.png" alt="Rockfort Stay Inn" className="footer-logo" />
+              </Link>
               <p className="footer-tagline">
                 Luxury service apartments crafted for those who expect more. Your home away from home in the heart of Oragadam, Chennai.
               </p>
@@ -42,7 +43,7 @@ function Footer() {
               <ul>
                 {navLinks.map(link => (
                   <li key={link.to}>
-                    <Link to={link.to}>
+                    <Link href={link.to}>
                       {link.label}
                     </Link>
                   </li>
@@ -53,11 +54,11 @@ function Footer() {
             <div className="footer-nav-col">
               <h4 className="footer-heading">Rooms</h4>
               <ul>
-                <li><Link to="/rooms">1BHK Deluxe</Link></li>
-                <li><Link to="/rooms">2BHK Luxury</Link></li>
-                <li><Link to="/rooms">Executive Suite</Link></li>
-                <li><Link to="/rooms">Long Stay Packages</Link></li>
-                <li><Link to="/rooms">Corporate Stays</Link></li>
+                <li><Link href="/rooms">1BHK Deluxe</Link></li>
+                <li><Link href="/rooms">2BHK Luxury</Link></li>
+                <li><Link href="/rooms">Executive Suite</Link></li>
+                <li><Link href="/rooms">Long Stay Packages</Link></li>
+                <li><Link href="/rooms">Corporate Stays</Link></li>
               </ul>
             </div>
 

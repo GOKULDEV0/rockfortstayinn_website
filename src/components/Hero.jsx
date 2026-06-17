@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
-import './Hero.css'
+
 
 function Hero() {
   const particlesRef = useRef(null)
@@ -111,7 +111,7 @@ function Hero() {
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
-          <Link to="/rooms" className="btn-outline">
+          <Link href="/rooms" className="btn-outline">
             Explore Rooms
           </Link>
         </motion.div>

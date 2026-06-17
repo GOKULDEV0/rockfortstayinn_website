@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import './Gallery.css'
+
 
 const galleryItems = [
   { id: 1, label: 'Living Room', span: 'wide', image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80' },

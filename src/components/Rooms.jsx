@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import './Rooms.css'
+
 
 const rooms = [
   {

@@ -1,0 +1,75 @@
+globalThis.__BUILD_MANIFEST = {
+  "pages": {
+    "/": [
+      "static/chunks/1ah4x3it5-a66.js",
+      "static/chunks/1kmcworlogavf.js",
+      "static/chunks/02-qqkfvaisfd.js",
+      "static/chunks/230v5kpf53b4u.js",
+      "static/chunks/0mqcbxb85pclv.js",
+      "static/chunks/turbopack-2uo0bxdrkl_xe.js"
+    ],
+    "/_app": [
+      "static/chunks/32_a585ulc2tm.js",
+      "static/chunks/1kmcworlogavf.js",
+      "static/chunks/02-qqkfvaisfd.js",
+      "static/chunks/230v5kpf53b4u.js",
+      "static/chunks/0efgosz3bv7oc.css",
+      "static/chunks/turbopack-35lffjj8hez33.js"
+    ],
+    "/_error": [
+      "static/chunks/1klcje-oc6qy_.js",
+      "static/chunks/1kmcworlogavf.js",
+      "static/chunks/02-qqkfvaisfd.js",
+      "static/chunks/230v5kpf53b4u.js",
+      "static/chunks/turbopack-2jjrpamxo0isk.js"
+    ],
+    "/about": [
+      "static/chunks/2cf5m2yqnmp_c.js",
+      "static/chunks/1kmcworlogavf.js",
+      "static/chunks/230v5kpf53b4u.js",
+      "static/chunks/0mqcbxb85pclv.js",
+      "static/chunks/02-qqkfvaisfd.js",
+      "static/chunks/turbopack-3mke2wn_28e-8.js"
+    ],
+    "/amenities": [
+      "static/chunks/0e-62t3ctneee.js",
+      "static/chunks/1kmcworlogavf.js",
+      "static/chunks/230v5kpf53b4u.js",
+      "static/chunks/0mqcbxb85pclv.js",
+      "static/chunks/02-qqkfvaisfd.js",
+      "static/chunks/turbopack-04wabi6jevhwt.js"
+    ],
+    "/contact": [
+      "static/chunks/3wxac1bm1a657.js",
+      "static/chunks/1kmcworlogavf.js",
+      "static/chunks/230v5kpf53b4u.js",
+      "static/chunks/0mqcbxb85pclv.js",
+      "static/chunks/02-qqkfvaisfd.js",
+      "static/chunks/turbopack-1w8mcjacw-wg9.js"
+    ],
+    "/gallery": [
+      "static/chunks/440cymav0qi8a.js",
+      "static/chunks/1kmcworlogavf.js",
+      "static/chunks/0mqcbxb85pclv.js",
+      "static/chunks/230v5kpf53b4u.js",
+      "static/chunks/02-qqkfvaisfd.js",
+      "static/chunks/turbopack-43wgx2c3r-c3p.js"
+    ],
+    "/rooms": [
+      "static/chunks/2xgib0kccxy9z.js",
+      "static/chunks/1kmcworlogavf.js",
+      "static/chunks/230v5kpf53b4u.js",
+      "static/chunks/0mqcbxb85pclv.js",
+      "static/chunks/02-qqkfvaisfd.js",
+      "static/chunks/turbopack-0i8ku4vet8113.js"
+    ]
+  },
+  "devFiles": [],
+  "polyfillFiles": [],
+  "lowPriorityFiles": [
+    "static/pa56JG95RjsUlKOerxDOV/_buildManifest.js",
+    "static/pa56JG95RjsUlKOerxDOV/_ssgManifest.js",
+    "static/pa56JG95RjsUlKOerxDOV/_clientMiddlewareManifest.js"
+  ],
+  "rootMainFiles": []
+};
