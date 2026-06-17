@@ -1,3 +1,5 @@
+/* Hero.css - Plum & Gold Theme */
+
 .hero {
   position: relative;
   min-height: 100vh;
@@ -21,24 +23,23 @@
   background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=80');
   background-size: cover;
   background-position: center;
-  opacity: 0.35;
+  opacity: 0.25;
 }
 
 .hero-gradient {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(201,168,76,0.04) 0%, transparent 50%),
-    linear-gradient(180deg, var(--dark) 0%, var(--dark-2) 50%, var(--dark) 100%);
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(178,134,34,0.1) 0%, transparent 60%),
+    linear-gradient(180deg, var(--dark) 0%, rgba(58,41,62,0.6) 50%, var(--dark) 100%);
 }
 
 .hero-pattern {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(178,134,34,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(178,134,34,0.04) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -54,7 +55,7 @@
   align-items: center;
   gap: 14px;
   margin-bottom: 28px;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 4px;
@@ -71,7 +72,7 @@
 }
 
 .hero-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: clamp(3.5rem, 9vw, 7rem);
   font-weight: 700;
   line-height: 1.05;
@@ -86,7 +87,7 @@
 }
 
 .hero-tagline {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(1rem, 2vw, 1.2rem);
   color: var(--white-50);
   line-height: 1.8;
@@ -117,7 +118,7 @@
 }
 
 .stat-number {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 600;
   color: var(--gold);
@@ -125,7 +126,7 @@
 }
 
 .stat-label {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -145,7 +146,7 @@
 .scroll-mouse {
   width: 26px;
   height: 40px;
-  border: 1.5px solid rgba(201,168,76,0.4);
+  border: 1.5px solid rgba(178,134,34,0.4);
   border-radius: 13px;
   display: flex;
   justify-content: center;

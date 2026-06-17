@@ -1,6 +1,8 @@
+/* Footer.css - Plum & Gold Theme */
+
 .footer {
-  background: var(--dark);
-  border-top: 1px solid rgba(255,255,255,0.06);
+  background: var(--dark-2);
+  border-top: 1px solid rgba(178,134,34,0.15);
 }
 
 .footer-top {
@@ -37,7 +39,7 @@
   background: rgba(37,211,102,0.1);
   border: 1px solid rgba(37,211,102,0.3);
   color: #25D366;
-  border-radius: 3px;
+  border-radius: 2px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -46,19 +48,21 @@
 }
 
 .footer-whatsapp:hover {
-  background: rgba(37,211,102,0.15);
+  background: rgba(37,211,102,0.18);
   border-color: #25D366;
   transform: translateY(-2px);
 }
 
 .footer-heading {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-body);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(178,134,34,0.15);
 }
 
 .footer-nav-col ul {
@@ -79,6 +83,7 @@
 
 .footer-nav-col ul li a:hover {
   color: var(--gold);
+  padding-left: 4px;
 }
 
 .footer-contact-list {
@@ -102,7 +107,7 @@
 
 .footer-bottom {
   padding: 20px 0;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(178,134,34,0.1);
 }
 
 .footer-bottom-inner {
@@ -120,23 +125,14 @@
 }
 
 .footer-location {
-  color: rgba(201,168,76,0.5) !important;
+  color: rgba(178,134,34,0.5) !important;
 }
 
 @media (max-width: 1000px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-  }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
 }
 
 @media (max-width: 600px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
-  .footer-bottom-inner {
-    flex-direction: column;
-    text-align: center;
-  }
+  .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+  .footer-bottom-inner { flex-direction: column; text-align: center; }
 }

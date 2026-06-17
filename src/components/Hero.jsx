@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-scroll'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import './Hero.css'
 
@@ -28,7 +28,7 @@ function Hero() {
       particles.forEach(p => {
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(201,168,76,${p.opacity})`
+        ctx.fillStyle = `rgba(178,134,34,${p.opacity})`
         ctx.fill()
         p.x += p.dx
         p.y += p.dy
@@ -111,8 +111,8 @@ function Hero() {
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
-          <Link to="rooms" smooth={true} duration={700} offset={-80}>
-            <button className="btn-outline">Explore Rooms</button>
+          <Link to="/rooms" className="btn-outline">
+            Explore Rooms
           </Link>
         </motion.div>
 
@@ -123,10 +123,10 @@ function Hero() {
           transition={{ duration: 1, delay: 1.3 }}
         >
           {[
+            { number: '20+', label: 'Years Experience' },
             { number: '3+', label: 'Room Types' },
-            { number: '100%', label: 'Furnished' },
             { number: '24/7', label: 'Support' },
-            { number: '5★', label: 'Experience' },
+            { number: '5★', label: 'Service' },
           ].map(stat => (
             <div key={stat.label} className="hero-stat">
               <span className="stat-number">{stat.number}</span>
@@ -142,11 +142,9 @@ function Hero() {
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
       >
-        <Link to="rooms" smooth={true} duration={700} offset={-80}>
-          <div className="scroll-mouse">
-            <div className="scroll-wheel" />
-          </div>
-        </Link>
+        <div className="scroll-mouse">
+          <div className="scroll-wheel" />
+        </div>
       </motion.div>
     </section>
   )

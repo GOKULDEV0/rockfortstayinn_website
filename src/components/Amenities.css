@@ -1,79 +1,59 @@
-.amenities {
-  background: var(--dark);
-  position: relative;
-  overflow: hidden;
-}
+/* Amenities.css - Plum & Gold Theme */
 
-.amenities::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
-  pointer-events: none;
+.amenities {
+  background-color: var(--dark);
 }
 
 .amenities-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2px;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 4px;
-  overflow: hidden;
+  background: rgba(178,134,34,0.08);
 }
 
 .amenity-card {
   display: flex;
   align-items: flex-start;
-  gap: 18px;
-  padding: 28px 24px;
-  background: var(--dark-3);
-  border: 1px solid rgba(255,255,255,0.04);
+  gap: 20px;
+  padding: 36px 32px;
+  background: var(--dark);
+  border-bottom: 3px solid transparent;
   transition: all 0.3s ease;
-  cursor: default;
 }
 
 .amenity-card:hover {
-  background: var(--dark-4);
-  border-color: rgba(201,168,76,0.15);
-}
-
-.amenity-card:hover .amenity-icon {
-  transform: scale(1.15);
+  background: var(--dark-2);
+  border-bottom-color: var(--gold);
 }
 
 .amenity-icon {
-  font-size: 1.8rem;
-  line-height: 1;
+  font-size: 2rem;
   flex-shrink: 0;
-  transition: transform 0.3s ease;
+  line-height: 1;
   margin-top: 2px;
 }
 
-.amenity-content {
-  flex: 1;
-}
+.amenity-content {}
 
 .amenity-title {
-  font-family: 'Lato', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
   color: var(--white);
-  margin-bottom: 6px;
-  letter-spacing: 0.3px;
+  margin-bottom: 8px;
 }
 
 .amenity-desc {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--white-50);
   line-height: 1.6;
 }
 
+@media (max-width: 992px) {
+  .amenities-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 600px) {
-  .amenities-grid {
-    grid-template-columns: 1fr;
-  }
+  .amenities-grid { grid-template-columns: 1fr; }
+  .amenity-card { padding: 28px 24px; }
 }
