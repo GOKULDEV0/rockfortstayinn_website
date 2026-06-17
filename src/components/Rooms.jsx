@@ -5,45 +5,48 @@ import './Rooms.css'
 const rooms = [
   {
     id: 1,
-    type: 'Studio',
-    title: 'Studio Suite',
-    desc: 'A perfectly curated space blending work and leisure. Ideal for solo travelers and business professionals seeking smart luxury.',
-    size: '350 sq.ft',
-    guests: '2 Guests',
-    price: '₹ XXXX',
-    period: '/ night',
-    features: ['King Bed', 'Smart TV', 'Kitchenette', 'High-Speed WiFi', 'AC', 'Work Desk'],
-    tag: 'Most Popular',
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    type: 'Single Room',
+    title: 'Single Room Stay',
+    desc: 'One private, fully-furnished bedroom in our 3-bedroom apartment. The hall and kitchen are comfortable shared common areas — ideal for solo corporate professionals.',
+    size: 'Private Bedroom',
+    guests: '1-2 Guests',
+    price: 'Contact Us',
+    period: '/ month',
+    features: ['Private Bedroom', 'Shared Hall', 'Shared Kitchen', 'Smart TV', 'AC', 'High-Speed Wi-Fi'],
+    tag: 'Most Flexible',
+    image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     accentPos: 'top-right',
+    note: 'Hall & Kitchen shared with other guests in the apartment.',
   },
   {
     id: 2,
-    type: '1BHK',
-    title: '1 Bedroom Suite',
-    desc: 'Generous living with a separate bedroom, full kitchen, and a spacious lounge — perfect for couples and extended stays.',
-    size: '650 sq.ft',
-    guests: '3 Guests',
-    price: '₹ XXXX',
-    period: '/ night',
-    features: ['King Bed', 'Full Kitchen', 'Living Room', 'Smart TV', 'Washing Machine', 'AC'],
-    tag: 'Best Value',
-    image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    type: '2 Rooms',
+    title: 'Two-Room Stay',
+    desc: 'Two private bedrooms in our apartment, with the hall and kitchen as shared common areas. Great for two colleagues from the same company staying together.',
+    size: '2 Private Bedrooms',
+    guests: '2-4 Guests',
+    price: 'Contact Us',
+    period: '/ month',
+    features: ['2 Private Bedrooms', 'Shared Hall', 'Shared Kitchen', '2 ACs', 'Smart TV', 'High-Speed Wi-Fi'],
+    tag: 'Great for Colleagues',
+    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     accentPos: 'bottom-left',
+    note: 'Hall & Kitchen shared — ideal for teams from the same company.',
   },
   {
     id: 3,
-    type: '2BHK',
-    title: '2 Bedroom Suite',
-    desc: 'The ultimate family retreat. Two private bedrooms, a fully equipped kitchen, and premium furnishings throughout.',
-    size: '1100 sq.ft',
-    guests: '6 Guests',
-    price: '₹ XXXX',
-    period: '/ night',
-    features: ['2 Bedrooms', 'Full Kitchen', 'Dining Area', '2 Smart TVs', 'Washer/Dryer', '2 ACs'],
-    tag: 'Premium',
-    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    type: 'Full Apartment',
+    title: 'Full 3-Bedroom Apartment',
+    desc: 'Book the entire 3-bedroom apartment exclusively for your family or group. You get complete private use of all 3 bedrooms, the hall, and the fully-equipped kitchen.',
+    size: 'Entire Apartment',
+    guests: 'Up to 6 Guests',
+    price: 'Contact Us',
+    period: '/ month',
+    features: ['3 Private Bedrooms', 'Exclusive Hall', 'Private Full Kitchen', '3 ACs', 'Washing Machine', 'Parking'],
+    tag: 'Best for Families',
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     accentPos: 'top-left',
+    note: 'Entire apartment exclusively yours — no sharing.',
   },
 ]
 
@@ -60,9 +63,9 @@ function RoomCard({ room, index }) {
       transition={{ duration: 0.7, delay: index * 0.15 }}
     >
       <div className="room-image-area">
-        <div 
+        <div
           className="room-image-placeholder"
-          style={{ 
+          style={{
             backgroundImage: `url(${room.image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
@@ -96,6 +99,13 @@ function RoomCard({ room, index }) {
         <h3 className="room-title">{room.title}</h3>
         <p className="room-desc">{room.desc}</p>
 
+        <div className="room-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          {room.note}
+        </div>
+
         <div className="room-features">
           {room.features.map(f => (
             <span key={f} className="room-feature">
@@ -109,7 +119,6 @@ function RoomCard({ room, index }) {
 
         <div className="room-footer">
           <div className="room-price">
-            <span className="price-from">From</span>
             <span className="price-amount">{room.price}</span>
             <span className="price-period">{room.period}</span>
           </div>
@@ -119,7 +128,7 @@ function RoomCard({ room, index }) {
             rel="noreferrer"
             className="room-book-btn"
           >
-            Book Now
+            Enquire Now
           </a>
         </div>
       </div>
@@ -141,13 +150,40 @@ function Rooms() {
           animate={headerInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
         >
-          <span className="section-label">Accommodations</span>
-          <h2 className="section-title">Choose Your Perfect Space</h2>
+          <span className="section-label">Accommodation</span>
+          <h2 className="section-title">Flexible Rooms for Every Need</h2>
           <div className="gold-divider" />
           <p className="section-subtitle">
-            From intimate studios to expansive family suites — every apartment is fully furnished and thoughtfully designed for your comfort.
+            Our 3-bedroom apartment offers complete flexibility. Book one room, two rooms, or the entire apartment — the hall and kitchen are shared common areas, making it perfect for corporate professionals and families alike.
           </p>
         </motion.div>
+
+        {/* How It Works Banner */}
+        <div className="how-it-works">
+          <div className="hiw-item">
+            <span className="hiw-icon">🏠</span>
+            <div>
+              <h4>3-Bedroom Apartment</h4>
+              <p>One full apartment with 3 private bedrooms</p>
+            </div>
+          </div>
+          <div className="hiw-arrow">→</div>
+          <div className="hiw-item">
+            <span className="hiw-icon">🛏️</span>
+            <div>
+              <h4>Book 1, 2, or All 3</h4>
+              <p>Choose based on your group size and budget</p>
+            </div>
+          </div>
+          <div className="hiw-arrow">→</div>
+          <div className="hiw-item">
+            <span className="hiw-icon">🍳</span>
+            <div>
+              <h4>Shared Common Areas</h4>
+              <p>Hall & kitchen shared between room guests</p>
+            </div>
+          </div>
+        </div>
 
         <div className="rooms-grid">
           {rooms.map((room, i) => (

@@ -3,18 +3,18 @@ import { motion, useInView } from 'framer-motion'
 import './Amenities.css'
 
 const amenities = [
-  { icon: '🛜', title: 'High-Speed WiFi', desc: 'Blazing fast internet for work and streaming, always reliable.' },
-  { icon: '❄️', title: 'Air Conditioning', desc: 'Individual climate control in every room for perfect comfort.' },
-  { icon: '📺', title: 'Smart TV', desc: 'Premium Smart TVs with OTT access — Netflix, Prime & more.' },
-  { icon: '🍳', title: 'Fully Equipped Kitchen', desc: 'Cook your own meals with all utensils, appliances and gas provided.' },
-  { icon: '👕', title: 'Washing Machine', desc: 'In-unit washer and dryer for complete laundry convenience.' },
-  { icon: '🔒', title: '24/7 Security', desc: 'Round-the-clock CCTV and gated security for your peace of mind.' },
-  { icon: '🚗', title: 'Parking Space', desc: 'Dedicated parking for two-wheelers and four-wheelers.' },
-  { icon: '🛏️', title: 'Premium Linen', desc: 'Hotel-grade mattresses, pillows, and fresh crisp linens.' },
+  { icon: '🛜', title: 'High-Speed Wi-Fi', desc: 'Blazing fast internet for work calls, streaming, and daily use — always reliable.' },
+  { icon: '❄️', title: 'Air Conditioning', desc: 'Individual AC units in every private bedroom for perfect personal comfort.' },
+  { icon: '📺', title: 'Smart TV', desc: 'Premium Smart TV in the shared hall — Netflix, Prime, and all OTT platforms.' },
+  { icon: '🍳', title: 'Fully Equipped Kitchen', desc: 'Shared kitchen with gas stove, utensils, and all appliances needed to cook your own meals.' },
+  { icon: '👕', title: 'Washing Machine', desc: 'In-unit washing machine available for all guests sharing the apartment.' },
+  { icon: '🔒', title: '24/7 Security', desc: 'CCTV surveillance and gated entry throughout the premises for your safety.' },
+  { icon: '🚗', title: 'Parking Space', desc: 'Dedicated parking for two-wheelers and four-wheelers available on premises.' },
+  { icon: '🛏️', title: 'Premium Bedding', desc: 'Every bedroom has a quality mattress, pillows, and fresh linen — hotel-grade comfort.' },
   { icon: '⚡', title: 'Power Backup', desc: 'Uninterrupted power supply ensures zero disruption to your stay.' },
-  { icon: '🧹', title: 'Housekeeping', desc: 'Regular housekeeping service to keep your space immaculate.' },
-  { icon: '📍', title: 'Prime Location', desc: 'Strategically located near IT parks, SIPCOT & major highways.' },
-  { icon: '📞', title: '24/7 Support', desc: 'Our team is always available for any assistance, day or night.' },
+  { icon: '🧹', title: 'Regular Housekeeping', desc: 'Common areas and rooms kept clean and tidy with scheduled housekeeping service.' },
+  { icon: '🏠', title: 'Shared Common Hall', desc: 'Spacious, furnished living hall shared comfortably between all guests in the apartment.' },
+  { icon: '📞', title: 'Direct Owner Support', desc: 'Our founder is directly reachable 24/7 for any assistance, maintenance, or special requests.' },
 ]
 
 function Amenities() {
@@ -35,7 +35,7 @@ function Amenities() {
           <h2 className="section-title">Every Luxury. Every Comfort.</h2>
           <div className="gold-divider" />
           <p className="section-subtitle">
-            We've thought of everything so you don't have to. Move in and feel at home from day one.
+            Every bedroom is fully furnished and private. The hall and kitchen are shared, well-maintained common areas — stocked and ready so you can move in and feel at home from day one.
           </p>
         </motion.div>
 

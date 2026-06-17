@@ -161,7 +161,45 @@
   color: var(--dark);
 }
 
+.map-nearby {
+  margin: 20px 0;
+}
+
+.map-nearby-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.map-nearby-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.map-nearby-tags span {
+  font-size: 11px;
+  padding: 4px 10px;
+  border: 1px solid rgba(178,134,34,0.3);
+  color: var(--white-50);
+  border-radius: 20px;
+}
+
+.contact-item.no-link {
+  cursor: default;
+}
+
+.contact-item.no-link:hover {
+  transform: none;
+  border-color: rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+}
+
 @media (max-width: 768px) {
   .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-  .map-placeholder { height: 280px; }
+  .map-placeholder { height: 340px; }
 }

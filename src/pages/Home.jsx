@@ -21,24 +21,24 @@ const teasers = [
 
 const roomTeasers = [
   {
-    type: '1BHK Deluxe',
-    desc: 'A generously furnished one-bedroom apartment with a full kitchen, spacious living room, and dedicated workspace. Ideal for professionals and couples.',
-    tag: 'Most Popular',
-    features: ['Full Kitchen', 'King Bed', 'Smart TV', 'Wi-Fi', 'AC'],
+    type: 'Single Room',
+    desc: 'One private, fully-furnished bedroom in our 3-bedroom apartment. The hall and kitchen are shared common areas — ideal for solo corporate professionals.',
+    tag: 'Most Flexible',
+    features: ['Private Bedroom', 'Shared Hall', 'Shared Kitchen', 'AC', 'Wi-Fi'],
     link: '/rooms',
   },
   {
-    type: '2BHK Luxury',
-    desc: 'Two private bedrooms, a fully equipped kitchen, and a large living and dining area. The ultimate space for families or project teams.',
-    tag: 'Premium',
-    features: ['2 Bedrooms', 'Full Kitchen', 'Dining Area', '2 Smart TVs', 'Washer'],
+    type: 'Two Rooms',
+    desc: 'Two private bedrooms with shared hall and kitchen. Perfect for two colleagues from the same company staying together comfortably.',
+    tag: 'Best for Colleagues',
+    features: ['2 Private Bedrooms', 'Shared Hall', 'Shared Kitchen', '2 ACs', 'Wi-Fi'],
     link: '/rooms',
   },
   {
-    type: 'Executive Suite',
-    desc: 'A compact, smartly designed suite for solo corporate travelers. Everything you need in a smaller footprint, without sacrificing any luxury.',
-    tag: 'Best Value',
-    features: ['Studio Layout', 'Work Desk', 'Kitchenette', 'Smart TV', 'Wi-Fi'],
+    type: 'Full Apartment',
+    desc: 'Book all 3 bedrooms exclusively for your family or group. Complete private use of the entire apartment — bedrooms, hall, and kitchen.',
+    tag: 'Best for Families',
+    features: ['3 Bedrooms', 'Private Hall', 'Private Kitchen', 'Washing Machine', 'Parking'],
     link: '/rooms',
   },
 ]

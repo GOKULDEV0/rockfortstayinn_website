@@ -9,7 +9,7 @@ function EnquiryButton() {
     name: '',
     contact: '',
     email: '',
-    roomType: 'Studio Suite',
+    roomType: 'Single Room',
     guests: '1',
     checkin: '',
     duration: '1',
@@ -139,11 +139,11 @@ function EnquiryButton() {
               <div className="enquiry-form-group">
                 <label>Room Type <span className="required-star">*</span></label>
                 <select name="roomType" value={formData.roomType} onChange={handleChange}>
-                  <option value="Studio Suite">Studio Suite</option>
-                  <option value="1 Bedroom Suite">1 Bedroom Suite</option>
-                  <option value="2 Bedroom Suite">2 Bedroom Suite</option>
-                  <option value="Long Stay Package">Long Stay Package</option>
-                  <option value="Corporate Stay">Corporate Stay</option>
+                  <option value="Single Room">Single Room (1 Bedroom, Shared Hall &amp; Kitchen)</option>
+                  <option value="Two Rooms">Two Rooms (2 Bedrooms, Shared Hall &amp; Kitchen)</option>
+                  <option value="Full Apartment">Full Apartment (All 3 Bedrooms, Private Use)</option>
+                  <option value="Long Stay Package">Long Stay Package (Monthly)</option>
+                  <option value="Corporate Bulk Booking">Corporate Bulk Booking</option>
                 </select>
               </div>
 
