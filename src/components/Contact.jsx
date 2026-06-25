@@ -22,6 +22,10 @@ function Contact() {
 
   async function handleSubmit(e) {
     e.preventDefault()
+    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+      setStatus('error')
+      return
+    }
     setStatus('sending')
     try {
       await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, { publicKey: PUBLIC_KEY })
@@ -262,7 +266,7 @@ function Contact() {
               </div>
 
               {status === 'error' && (
-                <p className="form-error">Something went wrong. Please try WhatsApp or call us directly.</p>
+                <p className="form-error">⚠️ Could not send email. Please WhatsApp or call us at +91 82207 57067 for immediate assistance.</p>
               )}
 
               <button

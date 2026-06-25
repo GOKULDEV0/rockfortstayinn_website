@@ -237,6 +237,8 @@
   text-transform: uppercase;
   border-radius: 2px;
   transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
 }
 
 .room-book-btn:hover {
@@ -245,10 +247,189 @@
   box-shadow: 0 6px 20px rgba(178,134,34,0.35);
 }
 
+/* ── Enquiry Modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 5, 15, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-box {
+  background: #2a1d2e;
+  border: 1px solid rgba(178,134,34,0.25);
+  border-radius: 6px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 28px 28px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.modal-room-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--white);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--white-50);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  line-height: 1;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.modal-close:hover { color: var(--white); }
+
+.modal-form {
+  padding: 24px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.modal-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.modal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal-form-group label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--white-50);
+}
+
+.modal-form-group input,
+.modal-form-group textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 2px;
+  padding: 12px 14px;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s;
+  width: 100%;
+}
+
+.modal-form-group input:focus,
+.modal-form-group textarea:focus {
+  border-color: var(--gold);
+  background: rgba(178,134,34,0.06);
+}
+
+.modal-form-group input::placeholder,
+.modal-form-group textarea::placeholder { color: rgba(255,255,255,0.2); }
+
+.modal-form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(3) hue-rotate(5deg);
+  cursor: pointer;
+}
+
+.modal-form-group textarea { resize: vertical; min-height: 80px; }
+
+.modal-submit {
+  width: 100%;
+  justify-content: center;
+  padding: 14px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border: none;
+}
+
+.modal-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.modal-error {
+  color: #e07070;
+  font-size: 0.85rem;
+  padding: 10px 14px;
+  background: rgba(220,60,60,0.08);
+  border: 1px solid rgba(220,60,60,0.2);
+  border-radius: 2px;
+}
+
+.modal-success {
+  padding: 40px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-success-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(178,134,34,0.15);
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: var(--gold);
+  line-height: 60px;
+  margin-bottom: 4px;
+}
+
+.modal-success h4 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--white);
+}
+
+.modal-success p {
+  font-size: 0.9rem;
+  color: var(--white-50);
+  line-height: 1.6;
+}
+
 @media (max-width: 992px) {
   .rooms-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 600px) {
   .rooms-grid { grid-template-columns: 1fr; }
+  .modal-form-row { grid-template-columns: 1fr; }
+  .modal-box { max-height: 95vh; }
 }

@@ -1,6 +1,12 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
+import emailjs from '@emailjs/browser'
 
+const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+
+const INIT_FORM = { name: '', email: '', phone: '', room: '', checkin: '', checkout: '', message: '' }
 
 const rooms = [
   {
@@ -50,85 +56,189 @@ const rooms = [
   },
 ]
 
+/* ── Enquiry Modal ── */
+function EnquiryModal({ room, onClose }) {
+  const formRef = useRef(null)
+  const [form, setForm]     = useState({ ...INIT_FORM, room: room.title })
+  const [status, setStatus] = useState('idle')
+
+  function handleChange(e) {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) { setStatus('error'); return }
+    setStatus('sending')
+    try {
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, { publicKey: PUBLIC_KEY })
+      setStatus('success')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="modal-overlay"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+      >
+        <motion.div
+          className="modal-box"
+          initial={{ opacity: 0, y: 60, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 60 }}
+          transition={{ duration: 0.3 }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="modal-header">
+            <div>
+              <span className="modal-room-tag">{room.title}</span>
+              <h3 className="modal-title">Send an Enquiry</h3>
+            </div>
+            <button className="modal-close" onClick={onClose}>✕</button>
+          </div>
+
+          {status === 'success' ? (
+            <div className="modal-success">
+              <span className="modal-success-icon">✓</span>
+              <h4>Enquiry Sent!</h4>
+              <p>We'll contact you shortly. For urgent booking call <strong>+91 82207 57067</strong></p>
+              <button className="btn-gold" onClick={onClose}>Close</button>
+            </div>
+          ) : (
+            <form ref={formRef} className="modal-form" onSubmit={handleSubmit} noValidate>
+              <input type="hidden" name="room" value={form.room} />
+
+              <div className="modal-form-row">
+                <div className="modal-form-group">
+                  <label>Full Name *</label>
+                  <input name="name" type="text" placeholder="Your name" value={form.name} onChange={handleChange} required />
+                </div>
+                <div className="modal-form-group">
+                  <label>Phone / WhatsApp *</label>
+                  <input name="phone" type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={handleChange} required />
+                </div>
+              </div>
+
+              <div className="modal-form-group">
+                <label>Email Address</label>
+                <input name="email" type="email" placeholder="your@email.com" value={form.email} onChange={handleChange} />
+              </div>
+
+              <div className="modal-form-row">
+                <div className="modal-form-group">
+                  <label>Check-in Date</label>
+                  <input name="checkin" type="date" value={form.checkin} onChange={handleChange} min={new Date().toISOString().split('T')[0]} />
+                </div>
+                <div className="modal-form-group">
+                  <label>Check-out Date</label>
+                  <input name="checkout" type="date" value={form.checkout} onChange={handleChange} min={form.checkin || new Date().toISOString().split('T')[0]} />
+                </div>
+              </div>
+
+              <div className="modal-form-group">
+                <label>Message</label>
+                <textarea name="message" rows={3} placeholder="Any special requirements..." value={form.message} onChange={handleChange} />
+              </div>
+
+              {status === 'error' && (
+                <p className="modal-error">⚠️ Could not send. Please call +91 82207 57067 directly.</p>
+              )}
+
+              <button type="submit" className="btn-gold modal-submit" disabled={status === 'sending'}>
+                {status === 'sending' ? 'Sending…' : 'Send Enquiry →'}
+              </button>
+            </form>
+          )}
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
 function RoomCard({ room, index }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
+  const [showModal, setShowModal] = useState(false)
 
   return (
-    <motion.div
-      ref={ref}
-      className="room-card"
-      initial={{ opacity: 0, y: 60 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.15 }}
-    >
-      <div className="room-image-area">
-        <div
-          className="room-image-placeholder"
-          style={{
-            backgroundImage: `url(${room.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
-          <div className={`room-accent ${room.accentPos}`} />
-        </div>
-        {room.tag && <span className="room-tag">{room.tag}</span>}
-      </div>
-
-      <div className="room-body">
-        <div className="room-meta">
-          <span className="room-guests">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-            {room.guests}
-          </span>
-          <span className="room-sqft">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <path d="M3 9h18M9 21V9"/>
-            </svg>
-            {room.size}
-          </span>
-        </div>
-
-        <h3 className="room-title">{room.title}</h3>
-        <p className="room-desc">{room.desc}</p>
-
-        <div className="room-note">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
-          {room.note}
-        </div>
-
-        <div className="room-features">
-          {room.features.map(f => (
-            <span key={f} className="room-feature">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              {f}
-            </span>
-          ))}
-        </div>
-
-        <div className="room-footer">
-          <a
-            href={`https://wa.me/918220757067?text=Hi, I'm interested in the ${room.title} at Rockfort Stay Inn`}
-            target="_blank"
-            rel="noreferrer"
-            className="room-book-btn full-width"
+    <>
+      <motion.div
+        ref={ref}
+        className="room-card"
+        initial={{ opacity: 0, y: 60 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, delay: index * 0.15 }}
+      >
+        <div className="room-image-area">
+          <div
+            className="room-image-placeholder"
+            style={{ backgroundImage: `url(${room.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
           >
-            Enquire Now
-          </a>
+            <div className={`room-accent ${room.accentPos}`} />
+          </div>
+          {room.tag && <span className="room-tag">{room.tag}</span>}
         </div>
-      </div>
-    </motion.div>
+
+        <div className="room-body">
+          <div className="room-meta">
+            <span className="room-guests">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              {room.guests}
+            </span>
+            <span className="room-sqft">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18M9 21V9"/>
+              </svg>
+              {room.size}
+            </span>
+          </div>
+
+          <h3 className="room-title">{room.title}</h3>
+          <p className="room-desc">{room.desc}</p>
+
+          <div className="room-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            {room.note}
+          </div>
+
+          <div className="room-features">
+            {room.features.map(f => (
+              <span key={f} className="room-feature">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                {f}
+              </span>
+            ))}
+          </div>
+
+          <div className="room-footer">
+            <button
+              className="room-book-btn full-width"
+              onClick={() => setShowModal(true)}
+            >
+              Enquire Now
+            </button>
+          </div>
+        </div>
+      </motion.div>
+
+      {showModal && <EnquiryModal room={room} onClose={() => setShowModal(false)} />}
+    </>
   )
 }
 
