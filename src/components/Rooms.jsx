@@ -1,12 +1,10 @@
 import { useRef, useState } from 'react'
-import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import emailjs from '@emailjs/browser'
 
 const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
 const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
 const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-
-const INIT_FORM = { name: '', email: '', phone: '', room: '', checkin: '', checkout: '', message: '' }
 
 const rooms = [
   {
@@ -59,105 +57,188 @@ const rooms = [
 /* ── Enquiry Modal ── */
 function EnquiryModal({ room, onClose }) {
   const formRef = useRef(null)
-  const [form, setForm]     = useState({ ...INIT_FORM, room: room.title })
-  const [status, setStatus] = useState('idle')
+  const today = new Date().toISOString().split('T')[0]
+  const [form, setForm] = useState({
+    name: '', phone: '', email: '',
+    room: room.title, guests: '1',
+    checkin: '', duration: '1', checkout: '', message: ''
+  })
+  const [status, setStatus] = useState('idle') // idle | sending | success | error
 
   function handleChange(e) {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm(prev => {
+      const next = { ...prev, [name]: value }
+      // Auto-calculate checkout from checkin + duration
+      if ((name === 'checkin' || name === 'duration') && next.checkin && next.duration) {
+        const d = new Date(next.checkin)
+        d.setDate(d.getDate() + parseInt(next.duration || 1, 10))
+        next.checkout = d.toISOString().split('T')[0]
+      }
+      return next
+    })
   }
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) { setStatus('error'); return }
+    if (!form.name.trim() || !form.phone.trim()) {
+      setStatus('error')
+      return
+    }
+    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+      setStatus('error')
+      return
+    }
     setStatus('sending')
     try {
-      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, { publicKey: PUBLIC_KEY })
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          name:     form.name,
+          phone:    form.phone,
+          email:    form.email || 'Not provided',
+          room:     form.room,
+          checkin:  form.checkin || 'Not specified',
+          checkout: form.checkout || 'Not specified',
+          message:  `Guests: ${form.guests}\n${form.message}`,
+        },
+        { publicKey: PUBLIC_KEY }
+      )
       setStatus('success')
     } catch {
       setStatus('error')
     }
   }
 
+  // Lock body scroll when modal open
+  if (typeof document !== 'undefined') {
+    document.body.style.overflow = 'hidden'
+  }
+  function close() {
+    if (typeof document !== 'undefined') document.body.style.overflow = ''
+    onClose()
+  }
+
   return (
-    <AnimatePresence>
+    <motion.div
+      className="modal-overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={close}
+    >
       <motion.div
-        className="modal-overlay"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
+        className="modal-box"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 50 }}
+        transition={{ duration: 0.25 }}
+        onClick={e => e.stopPropagation()}
       >
-        <motion.div
-          className="modal-box"
-          initial={{ opacity: 0, y: 60, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 60 }}
-          transition={{ duration: 0.3 }}
-          onClick={e => e.stopPropagation()}
-        >
-          <div className="modal-header">
-            <div>
-              <span className="modal-room-tag">{room.title}</span>
-              <h3 className="modal-title">Send an Enquiry</h3>
-            </div>
-            <button className="modal-close" onClick={onClose}>✕</button>
+        {/* Sticky Header */}
+        <div className="modal-header">
+          <div className="modal-header-text">
+            <span className="modal-room-tag">✦ {room.title}</span>
+            <h3 className="modal-title">Book Your Stay</h3>
           </div>
+          <button className="modal-close" onClick={close} aria-label="Close">✕</button>
+        </div>
 
-          {status === 'success' ? (
-            <div className="modal-success">
-              <span className="modal-success-icon">✓</span>
-              <h4>Enquiry Sent!</h4>
-              <p>We'll contact you shortly. For urgent booking call <strong>+91 82207 57067</strong></p>
-              <button className="btn-gold" onClick={onClose}>Close</button>
+        {/* Scrollable Body */}
+        {status === 'success' ? (
+          <div className="modal-success">
+            <div className="modal-success-icon">✓</div>
+            <h4>Enquiry Sent!</h4>
+            <p>Thank you! We've received your booking request and will contact you shortly.</p>
+            <p className="modal-urgent">For urgent booking: <strong>+91 82207 57067</strong></p>
+            <button className="btn-gold modal-close-btn" onClick={close}>Close</button>
+          </div>
+        ) : (
+          <>
+            <div className="modal-body">
+              <form ref={formRef} id="enquiry-form" onSubmit={handleSubmit} noValidate>
+                {/* Row 1 */}
+                <div className="modal-form-row">
+                  <div className="modal-form-group">
+                    <label htmlFor="m-name">Full Name *</label>
+                    <input id="m-name" name="name" type="text" placeholder="Your full name"
+                      value={form.name} onChange={handleChange} autoComplete="name" />
+                  </div>
+                  <div className="modal-form-group">
+                    <label htmlFor="m-phone">Phone / WhatsApp *</label>
+                    <input id="m-phone" name="phone" type="tel" placeholder="+91 98765 43210"
+                      value={form.phone} onChange={handleChange} autoComplete="tel" />
+                  </div>
+                </div>
+
+                {/* Row 2 */}
+                <div className="modal-form-row">
+                  <div className="modal-form-group">
+                    <label htmlFor="m-email">Email Address</label>
+                    <input id="m-email" name="email" type="email" placeholder="your@email.com"
+                      value={form.email} onChange={handleChange} autoComplete="email" />
+                  </div>
+                  <div className="modal-form-group">
+                    <label htmlFor="m-guests">Number of Guests</label>
+                    <input id="m-guests" name="guests" type="number" min="1" max="10"
+                      value={form.guests} onChange={handleChange} />
+                  </div>
+                </div>
+
+                {/* Row 3 */}
+                <div className="modal-form-row">
+                  <div className="modal-form-group">
+                    <label htmlFor="m-checkin">Check-in Date</label>
+                    <input id="m-checkin" name="checkin" type="date"
+                      value={form.checkin} onChange={handleChange} min={today} />
+                  </div>
+                  <div className="modal-form-group">
+                    <label htmlFor="m-duration">Duration (Nights)</label>
+                    <input id="m-duration" name="duration" type="number" min="1"
+                      value={form.duration} onChange={handleChange} />
+                  </div>
+                </div>
+
+                {/* Checkout auto */}
+                <div className="modal-form-group">
+                  <label>Check-out Date (Auto-calculated)</label>
+                  <input name="checkout" type="text" readOnly
+                    value={form.checkout || '—'} className="modal-readonly" />
+                </div>
+
+                {/* Message */}
+                <div className="modal-form-group">
+                  <label htmlFor="m-message">Special Requests / Message</label>
+                  <textarea id="m-message" name="message" rows={3}
+                    placeholder="Any special requirements or questions..."
+                    value={form.message} onChange={handleChange} />
+                </div>
+
+                {status === 'error' && (
+                  <p className="modal-error">
+                    ⚠️ {!form.name.trim() || !form.phone.trim()
+                      ? 'Please fill in your Name and Phone number.'
+                      : 'Could not send. Please call +91 82207 57067 directly.'}
+                  </p>
+                )}
+              </form>
             </div>
-          ) : (
-            <form ref={formRef} className="modal-form" onSubmit={handleSubmit} noValidate>
-              <input type="hidden" name="room" value={form.room} />
 
-              <div className="modal-form-row">
-                <div className="modal-form-group">
-                  <label>Full Name *</label>
-                  <input name="name" type="text" placeholder="Your name" value={form.name} onChange={handleChange} required />
-                </div>
-                <div className="modal-form-group">
-                  <label>Phone / WhatsApp *</label>
-                  <input name="phone" type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={handleChange} required />
-                </div>
-              </div>
-
-              <div className="modal-form-group">
-                <label>Email Address</label>
-                <input name="email" type="email" placeholder="your@email.com" value={form.email} onChange={handleChange} />
-              </div>
-
-              <div className="modal-form-row">
-                <div className="modal-form-group">
-                  <label>Check-in Date</label>
-                  <input name="checkin" type="date" value={form.checkin} onChange={handleChange} min={new Date().toISOString().split('T')[0]} />
-                </div>
-                <div className="modal-form-group">
-                  <label>Check-out Date</label>
-                  <input name="checkout" type="date" value={form.checkout} onChange={handleChange} min={form.checkin || new Date().toISOString().split('T')[0]} />
-                </div>
-              </div>
-
-              <div className="modal-form-group">
-                <label>Message</label>
-                <textarea name="message" rows={3} placeholder="Any special requirements..." value={form.message} onChange={handleChange} />
-              </div>
-
-              {status === 'error' && (
-                <p className="modal-error">⚠️ Could not send. Please call +91 82207 57067 directly.</p>
-              )}
-
-              <button type="submit" className="btn-gold modal-submit" disabled={status === 'sending'}>
-                {status === 'sending' ? 'Sending…' : 'Send Enquiry →'}
+            {/* Sticky Footer */}
+            <div className="modal-footer">
+              <button type="button" className="modal-cancel-btn" onClick={close}>Cancel</button>
+              <button type="submit" form="enquiry-form" className="btn-gold modal-submit-btn"
+                disabled={status === 'sending'}>
+                {status === 'sending'
+                  ? <><span className="modal-spinner" /> Sending…</>
+                  : 'Send Enquiry →'}
               </button>
-            </form>
-          )}
-        </motion.div>
+            </div>
+          </>
+        )}
       </motion.div>
-    </AnimatePresence>
+    </motion.div>
   )
 }
 
