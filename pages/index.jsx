@@ -1,5 +1,8 @@
+import Head from 'next/head'
+import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 
 const teasers = [
@@ -21,21 +24,21 @@ const teasers = [
 
 const roomTeasers = [
   {
-    type: 'Single Room',
+    type: 'Executive Room',
     desc: 'One private, fully-furnished bedroom in our 3-bedroom apartment. The hall and kitchen are shared common areas — ideal for solo corporate professionals.',
     tag: 'Most Flexible',
     features: ['Private Bedroom', 'Shared Hall', 'Shared Kitchen', 'Free Breakfast', 'AC'],
     link: '/rooms',
   },
   {
-    type: 'Two Rooms',
+    type: 'Deluxe Suite',
     desc: 'Two private bedrooms with shared hall and kitchen. Perfect for two colleagues from the same company staying together comfortably.',
     tag: 'Best for Colleagues',
     features: ['2 Private Bedrooms', 'Shared Hall', 'Shared Kitchen', 'Free Breakfast', '2 ACs'],
     link: '/rooms',
   },
   {
-    type: 'Full Apartment',
+    type: 'Grand Residence',
     desc: 'Book all 3 bedrooms exclusively for your family or group. Complete private use of the entire apartment — bedrooms, hall, and kitchen.',
     tag: 'Best for Families',
     features: ['3 Bedrooms', 'Private Hall', 'Private Kitchen', 'Free Breakfast', 'Parking'],
@@ -47,6 +50,7 @@ const amenityTeaser = [
   { icon: '🛜', label: 'High-Speed Wi-Fi' },
   { icon: '❄️', label: 'AC in all rooms' },
   { icon: '🍳', label: 'Equipped Kitchen' },
+  { icon: '📺', label: 'OTT Smart TV (Hall)' },
   { icon: '👕', label: 'Washing Machine' },
   { icon: '🔒', label: '24/7 Security' },
   { icon: '🚗', label: 'Free Parking' },
@@ -55,9 +59,99 @@ const amenityTeaser = [
   { icon: '🧹', label: 'Housekeeping' },
 ]
 
+const faqs = [
+  {
+    q: 'What types of rooms are available at Rockfort Stay Inn?',
+    a: 'We offer three flexible booking options in our 3-bedroom apartment: an Executive Room (one private bedroom), a Deluxe Suite (two private bedrooms), or the Grand Residence (all 3 bedrooms exclusively). The hall and kitchen are comfortable shared common areas.',
+  },
+  {
+    q: 'What are the check-in and check-out timings?',
+    a: 'Check-in time is 12:00 PM (noon) and check-out time is 11:00 AM. Early check-in or late check-out can be arranged on request, subject to availability.',
+  },
+  {
+    q: 'Is breakfast included in the stay?',
+    a: 'Yes! Complimentary morning breakfast is included for all guests. Other meals are available on a paid basis.',
+  },
+  {
+    q: 'Where is Rockfort Stay Inn located?',
+    a: 'We are located at Hirondini Park, Oragadam Industrial Corridor, Chennai, Tamil Nadu — 602 105. We are just minutes away from Renault-Nissan, Daimler India, Yamaha, Royal Enfield, and SIPCOT Industrial Park.',
+  },
+  {
+    q: 'Is Rockfort Stay Inn suitable for long-term corporate stays?',
+    a: 'Absolutely. Rockfort Stay Inn is specifically designed for corporate professionals on long-term projects near the Oragadam industrial zone. We offer monthly pricing, flexible room configurations, and direct owner management for a home-away-from-home experience.',
+  },
+  {
+    q: 'How do I make a booking?',
+    a: 'The fastest way to book is via WhatsApp at +91 82207 57067. You can also email us at karthik@rockfortstayinn.com. We handle all bookings personally — no middlemen, no hidden charges.',
+  },
+  {
+    q: 'Is parking available at Rockfort Stay Inn?',
+    a: 'Yes, dedicated parking for both two-wheelers and four-wheelers is available on the premises at no extra charge.',
+  },
+  {
+    q: 'What ID proof is required at check-in?',
+    a: 'All guests must present a valid government-issued photo ID at check-in. Accepted IDs include Aadhaar Card, Driving License, and Passport. Foreign nationals must present a valid Passport.',
+  },
+]
+
+function FaqItem({ faq, i }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <motion.div
+      className="faq-item"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: i * 0.04 }}
+    >
+      <button className="faq-question" onClick={() => setOpen(!open)} aria-expanded={open}>
+        <span>{faq.q}</span>
+        <svg
+          className={`faq-chevron${open ? ' open' : ''}`}
+          width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" strokeWidth="2"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            className="faq-answer"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <p>{faq.a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+}
+
 function Home() {
   return (
-    <main className="home-main">
+    <>
+      <Head>
+        <title>Rockfort Stay Inn | Luxury Service Apartments in Oragadam, Chennai</title>
+        <meta name="description" content="Rockfort Stay Inn offers premium service apartments at Hirondini Park, Oragadam, Chennai. Book Single Room, 2 Rooms, or Full Apartment — ideal for corporate stays & families." />
+        <meta name="keywords" content="service apartments Chennai, service apartments Oragadam, Rockfort Stay Inn, corporate stay Chennai, short stay Oragadam, furnished apartments Oragadam" />
+        <link rel="canonical" href="https://www.rockfortstayinn.com/" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      </Head>
+      <main className="home-main">
 
       {/* ===== ABOUT TEASER BLOCK ===== */}
       <section className="teaser-block">
@@ -95,9 +189,13 @@ function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <div className="teaser-image-frame">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Rockfort Stay Inn Premium Apartment"
+                  alt="Rockfort Stay Inn Premium Service Apartment — Oragadam Chennai"
+                  width={800}
+                  height={480}
+                  style={{ width: '100%', height: '480px', objectFit: 'cover', display: 'block' }}
+                  priority
                 />
                 <div className="teaser-image-badge">
                   <span className="tib-num">5★</span>
@@ -205,6 +303,31 @@ function Home() {
         </div>
       </section>
 
+      {/* ===== FAQ SECTION ===== */}
+      <section className="teaser-block">
+        <div className="container">
+          <motion.div
+            className="teaser-header-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <span className="teaser-eyebrow">FAQ</span>
+            <h2 className="teaser-heading">Frequently Asked<br />Questions</h2>
+            <div className="teaser-divider center" />
+            <p className="teaser-text centered">
+              Everything you need to know before booking your stay at Rockfort Stay Inn, Oragadam.
+            </p>
+          </motion.div>
+          <div className="faq-list">
+            {faqs.map((faq, i) => (
+              <FaqItem key={i} faq={faq} i={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ===== CONTACT / CTA BANNER BLOCK ===== */}
       <section className="teaser-cta-banner">
         <div className="container">
@@ -238,6 +361,7 @@ function Home() {
       </section>
 
     </main>
+    </>
   )
 }
 

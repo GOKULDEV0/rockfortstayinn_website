@@ -6,7 +6,7 @@ const amenities = [
   { icon: '🥐', title: 'Free Breakfast', desc: 'Complimentary morning breakfast for all guests. Other meals are available on a paid basis.' },
   { icon: '🛜', title: 'High-Speed Wi-Fi', desc: 'Blazing fast internet for work calls, streaming, and daily use — always reliable.' },
   { icon: '❄️', title: 'Air Conditioning', desc: 'Individual AC units in every private bedroom for perfect personal comfort.' },
-  { icon: '📺', title: 'Smart TV', desc: 'Premium Smart TV in the shared hall — Netflix, Prime, and all OTT platforms.' },
+  { icon: '📺', title: 'OTT Smart TV', desc: 'Smart TV in the shared hall with select OTT platforms available for all guests staying in the apartment.' },
   { icon: '🍳', title: 'Fully Equipped Kitchen', desc: 'Shared kitchen with gas stove, utensils, and all appliances needed to cook your own meals.' },
   { icon: '👕', title: 'Washing Machine', desc: 'In-unit washing machine available for all guests sharing the apartment.' },
   { icon: '🔒', title: '24/7 Security', desc: 'CCTV surveillance and gated entry throughout the premises for your safety.' },

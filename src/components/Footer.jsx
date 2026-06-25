@@ -20,7 +20,10 @@ function Footer() {
           <div className="footer-grid">
             <div className="footer-brand">
               <Link href="/">
-                <img src="/logo.png" alt="Rockfort Stay Inn" className="footer-logo" />
+                <div className="footer-logo-wrap">
+                  <img src="/logo.png" alt="Rockfort Stay Inn" className="footer-logo" />
+                  <span className="footer-brand-name">ROCKFORT STAY INN</span>
+                </div>
               </Link>
               <p className="footer-tagline">
                 Luxury service apartments crafted for those who expect more. Your home away from home in the heart of Oragadam, Chennai.
@@ -54,9 +57,9 @@ function Footer() {
             <div className="footer-nav-col">
               <h4 className="footer-heading">Rooms</h4>
               <ul>
-                <li><Link href="/rooms">1BHK Deluxe</Link></li>
-                <li><Link href="/rooms">2BHK Luxury</Link></li>
-                <li><Link href="/rooms">Executive Suite</Link></li>
+                <li><Link href="/rooms">Executive Room</Link></li>
+                <li><Link href="/rooms">Deluxe Suite</Link></li>
+                <li><Link href="/rooms">Grand Residence</Link></li>
                 <li><Link href="/rooms">Long Stay Packages</Link></li>
                 <li><Link href="/rooms">Corporate Stays</Link></li>
               </ul>

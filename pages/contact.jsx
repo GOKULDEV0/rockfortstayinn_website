@@ -1,9 +1,16 @@
+import Head from 'next/head'
 import Link from 'next/link'
 import Contact from '../src/components/Contact'
 
 function ContactPage() {
   return (
-    <main>
+    <>
+      <Head>
+        <title>Contact Us | Book Your Stay | Rockfort Stay Inn Oragadam Chennai</title>
+        <meta name="description" content="Contact Rockfort Stay Inn at +91 82207 57067 or via WhatsApp for bookings, corporate packages, and custom rate enquiries. Located at Hirondini Park, Oragadam, Chennai." />
+        <link rel="canonical" href="https://www.rockfortstayinn.com/contact" />
+      </Head>
+      <main>
       <div className="page-banner">
         <div className="container page-banner-inner">
           <nav className="page-breadcrumb">
@@ -18,6 +25,7 @@ function ContactPage() {
       </div>
       <Contact />
     </main>
+    </>
   )
 }
 

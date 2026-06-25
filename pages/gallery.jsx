@@ -1,9 +1,16 @@
+import Head from 'next/head'
 import Link from 'next/link'
 import Gallery from '../src/components/Gallery'
 
 function GalleryPage() {
   return (
-    <main>
+    <>
+      <Head>
+        <title>Photo Gallery | Rockfort Stay Inn Premium Apartments Oragadam Chennai</title>
+        <meta name="description" content="Browse the photo gallery of Rockfort Stay Inn — luxury furnished apartments in Oragadam, Chennai. View bedrooms, living rooms, kitchen, and premium interiors." />
+        <link rel="canonical" href="https://www.rockfortstayinn.com/gallery" />
+      </Head>
+      <main>
       <div className="page-banner">
         <div className="container page-banner-inner">
           <nav className="page-breadcrumb">
@@ -18,6 +25,7 @@ function GalleryPage() {
       </div>
       <Gallery />
     </main>
+    </>
   )
 }
 

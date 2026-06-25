@@ -1,10 +1,36 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
+import emailjs from '@emailjs/browser'
 
+const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+
+const INIT_FORM = { name: '', email: '', phone: '', room: '', checkin: '', checkout: '', message: '' }
 
 function Contact() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
+  const ref     = useRef(null)
+  const formRef = useRef(null)
+  const inView  = useInView(ref, { once: true })
+
+  const [form, setForm]     = useState(INIT_FORM)
+  const [status, setStatus] = useState('idle') // idle | sending | success | error
+
+  function handleChange(e) {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setStatus('sending')
+    try {
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, { publicKey: PUBLIC_KEY })
+      setStatus('success')
+      setForm(INIT_FORM)
+    } catch {
+      setStatus('error')
+    }
+  }
 
   const contactItems = [
     {
@@ -120,36 +146,139 @@ function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <div className="map-placeholder">
-              <div className="map-inner">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                </svg>
-                <p>Hirondini Park</p>
-                <span>Oragadam Industrial Corridor<br />Chennai, Tamil Nadu — 602 105</span>
-                <div className="map-nearby">
-                  <p className="map-nearby-title">Nearby Corporates</p>
-                  <div className="map-nearby-tags">
-                    <span>Renault-Nissan</span>
-                    <span>Daimler India</span>
-                    <span>Yamaha</span>
-                    <span>Royal Enfield</span>
-                    <span>Schwing Stetter</span>
-                    <span>SIPCOT</span>
-                  </div>
-                </div>
-                <a
-                  href="https://maps.app.goo.gl/Ph5QfHFsaHPzfzqd6"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="map-link"
-                >
-                  Open in Google Maps ↗
-                </a>
-              </div>
+            <div className="map-embed-wrapper">
+              <iframe
+                src="https://maps.google.com/maps?q=12.8151983,79.9588173&z=15&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0, display: 'block', minHeight: '420px' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Rockfort Stay Inn Location — Hirondini Park, Oragadam, Chennai"
+              />
+              <a
+                href="https://maps.app.goo.gl/3ZwD6k71SqtC5XeRA"
+                target="_blank"
+                rel="noreferrer"
+                className="map-open-link"
+              >
+                Open in Google Maps ↗
+              </a>
             </div>
           </motion.div>
         </div>
+
+        {/* ── Enquiry Form ── */}
+        <motion.div
+          className="enquiry-form-wrap"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+        >
+          <div className="enquiry-form-header">
+            <span className="section-label">Send an Enquiry</span>
+            <h3 className="enquiry-form-title">Book Your Stay</h3>
+            <p className="enquiry-form-sub">Fill the form below and we'll get back to you within a few hours.</p>
+          </div>
+
+          {status === 'success' ? (
+            <div className="form-success">
+              <span className="form-success-icon">✓</span>
+              <h4>Enquiry Sent Successfully!</h4>
+              <p>Thank you! We've received your enquiry and will contact you shortly at the number or email you provided.</p>
+              <button className="btn-gold" onClick={() => setStatus('idle')}>Send Another Enquiry</button>
+            </div>
+          ) : (
+            <form ref={formRef} className="enquiry-form" onSubmit={handleSubmit} noValidate>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="name">Full Name *</label>
+                  <input
+                    id="name" name="name" type="text"
+                    placeholder="Your full name"
+                    value={form.name} onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="phone">Phone / WhatsApp *</label>
+                  <input
+                    id="phone" name="phone" type="tel"
+                    placeholder="+91 98765 43210"
+                    value={form.phone} onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    id="email" name="email" type="email"
+                    placeholder="your@email.com"
+                    value={form.email} onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="room">Room Preference</label>
+                  <select id="room" name="room" value={form.room} onChange={handleChange}>
+                    <option value="">Select a room type</option>
+                    <option value="Executive Room (1 Bedroom)">Executive Room — 1 Bedroom</option>
+                    <option value="Deluxe Suite (2 Bedrooms)">Deluxe Suite — 2 Bedrooms</option>
+                    <option value="Grand Residence (Full Apartment)">Grand Residence — Full Apartment</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="checkin">Check-in Date</label>
+                  <input
+                    id="checkin" name="checkin" type="date"
+                    value={form.checkin} onChange={handleChange}
+                    min={new Date().toISOString().split('T')[0]}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="checkout">Check-out Date</label>
+                  <input
+                    id="checkout" name="checkout" type="date"
+                    value={form.checkout} onChange={handleChange}
+                    min={form.checkin || new Date().toISOString().split('T')[0]}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group form-group-full">
+                <label htmlFor="message">Message / Special Requests</label>
+                <textarea
+                  id="message" name="message" rows={4}
+                  placeholder="Any special requirements, questions, or additional details..."
+                  value={form.message} onChange={handleChange}
+                />
+              </div>
+
+              {status === 'error' && (
+                <p className="form-error">Something went wrong. Please try WhatsApp or call us directly.</p>
+              )}
+
+              <button
+                type="submit"
+                className="form-submit-btn btn-gold"
+                disabled={status === 'sending'}
+              >
+                {status === 'sending' ? (
+                  <><span className="form-spinner" /> Sending…</>
+                ) : (
+                  'Send Enquiry →'
+                )}
+              </button>
+            </form>
+          )}
+        </motion.div>
       </div>
     </section>
   )

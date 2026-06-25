@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import Navbar from '../src/components/Navbar'
 import Footer from '../src/components/Footer'
 import EnquiryButton from '../src/components/EnquiryButton'
@@ -15,10 +14,6 @@ import '../src/components/Rooms.css'
 import '../pages/Home.css'
 
 export default function App({ Component, pageProps }) {
-  useEffect(() => {
-    // Basic fix for next.js hydration matching window sizes if needed
-  }, [])
-
   return (
     <>
       <Navbar />

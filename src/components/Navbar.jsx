@@ -28,7 +28,10 @@ function Navbar() {
       <div className="nav-container">
         <div className="nav-logo">
           <Link href="/">
-            <img src="/logo.png" alt="Rockfort Stay Inn Logo" />
+            <div className="nav-logo-wrap">
+              <img src="/logo.png" alt="Rockfort Stay Inn Logo" />
+              <span className="nav-brand-name">ROCKFORT STAY INN</span>
+            </div>
           </Link>
         </div>
 

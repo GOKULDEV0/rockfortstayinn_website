@@ -5,14 +5,14 @@ import { motion, useInView } from 'framer-motion'
 const rooms = [
   {
     id: 1,
-    type: 'Single Room',
-    title: 'Single Room Stay',
+    type: 'Executive Room',
+    title: 'Executive Room',
     desc: 'One private, fully-furnished bedroom in our 3-bedroom apartment. The hall and kitchen are comfortable shared common areas — ideal for solo corporate professionals.',
     size: 'Private Bedroom',
     guests: '1-2 Guests',
     price: '₹ 1000',
     period: '/ month',
-    features: ['Private Bedroom', 'Shared Hall', 'Shared Kitchen', 'Free Breakfast', 'Smart TV', 'AC', 'Wi-Fi'],
+    features: ['Private Bedroom', 'Shared Hall', 'Shared Kitchen', 'Free Breakfast', 'OTT Smart TV (Hall)', 'AC', 'Wi-Fi'],
     tag: 'Most Flexible',
     image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     accentPos: 'top-right',
@@ -20,14 +20,14 @@ const rooms = [
   },
   {
     id: 2,
-    type: '2 Rooms',
-    title: 'Two-Room Stay',
+    type: 'Deluxe Suite',
+    title: 'Deluxe Suite',
     desc: 'Two private bedrooms in our apartment, with the hall and kitchen as shared common areas. Great for two colleagues from the same company staying together.',
     size: '2 Private Bedrooms',
     guests: '2-4 Guests',
     price: '₹ 2000',
     period: '/ month',
-    features: ['2 Private Bedrooms', 'Shared Hall', 'Shared Kitchen', 'Free Breakfast', '2 ACs', 'Smart TV', 'Wi-Fi'],
+    features: ['2 Private Bedrooms', 'Shared Hall', 'Shared Kitchen', 'Free Breakfast', 'OTT Smart TV (Hall)', '2 ACs', 'Wi-Fi'],
     tag: 'Great for Colleagues',
     image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     accentPos: 'bottom-left',
@@ -35,14 +35,14 @@ const rooms = [
   },
   {
     id: 3,
-    type: 'Full Apartment',
-    title: 'Full 3-Bedroom Apartment',
+    type: 'Grand Residence',
+    title: 'Grand Residence',
     desc: 'Book the entire 3-bedroom apartment exclusively for your family or group. You get complete private use of all 3 bedrooms, the hall, and the fully-equipped kitchen.',
     size: 'Entire Apartment',
     guests: 'Up to 6 Guests',
     price: '₹ 3000',
     period: '/ month',
-    features: ['3 Private Bedrooms', 'Exclusive Hall', 'Private Kitchen', 'Free Breakfast', '3 ACs', 'Washing Machine', 'Parking'],
+    features: ['3 Private Bedrooms', 'Exclusive Hall', 'Private Kitchen', 'Free Breakfast', 'OTT Smart TV (Hall)', '3 ACs', 'Washing Machine', 'Parking'],
     tag: 'Best for Families',
     image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     accentPos: 'top-left',
@@ -118,15 +118,11 @@ function RoomCard({ room, index }) {
         </div>
 
         <div className="room-footer">
-          <div className="room-price">
-            <span className="price-amount">{room.price}</span>
-            <span className="price-period">{room.period}</span>
-          </div>
           <a
             href={`https://wa.me/918220757067?text=Hi, I'm interested in the ${room.title} at Rockfort Stay Inn`}
             target="_blank"
             rel="noreferrer"
-            className="room-book-btn"
+            className="room-book-btn full-width"
           >
             Enquire Now
           </a>

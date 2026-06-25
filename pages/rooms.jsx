@@ -1,9 +1,16 @@
+import Head from 'next/head'
 import Link from 'next/link'
 import Rooms from '../src/components/Rooms'
 
 function RoomsPage() {
   return (
-    <main>
+    <>
+      <Head>
+        <title>Rooms & Pricing | Single, 2-Room & Full Apartment | Rockfort Stay Inn Oragadam</title>
+        <meta name="description" content="Book a single room, two rooms, or the full 3-bedroom apartment at Rockfort Stay Inn, Oragadam. Flexible pricing starting ₹1000/month. Ideal for corporate professionals & families." />
+        <link rel="canonical" href="https://www.rockfortstayinn.com/rooms" />
+      </Head>
+      <main>
       <div className="page-banner">
         <div className="container page-banner-inner">
           <nav className="page-breadcrumb">
@@ -18,6 +25,7 @@ function RoomsPage() {
       </div>
       <Rooms />
     </main>
+    </>
   )
 }
 

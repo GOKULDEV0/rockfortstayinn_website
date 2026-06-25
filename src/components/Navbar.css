@@ -29,11 +29,30 @@
   justify-content: space-between;
 }
 
+.nav-logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+
 .nav-logo img {
-  height: 52px;
+  height: 46px;
   width: auto;
   object-fit: contain;
-  filter: brightness(1.1);
+  display: block;
+}
+
+.nav-brand-name {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+  line-height: 1;
 }
 
 .nav-links {

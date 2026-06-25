@@ -1,9 +1,16 @@
+import Head from 'next/head'
 import Link from 'next/link'
 import Amenities from '../src/components/Amenities'
 
 function AmenitiesPage() {
   return (
-    <main>
+    <>
+      <Head>
+        <title>Amenities & Facilities | Free Breakfast, Wi-Fi, AC & More | Rockfort Stay Inn</title>
+        <meta name="description" content="Rockfort Stay Inn offers free breakfast, high-speed Wi-Fi, AC in all rooms, fully equipped kitchen, washing machine, 24/7 security, parking, and power backup in Oragadam, Chennai." />
+        <link rel="canonical" href="https://www.rockfortstayinn.com/amenities" />
+      </Head>
+      <main>
       <div className="page-banner">
         <div className="container page-banner-inner">
           <nav className="page-breadcrumb">
@@ -18,6 +25,7 @@ function AmenitiesPage() {
       </div>
       <Amenities />
     </main>
+    </>
   )
 }
 
