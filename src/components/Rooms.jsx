@@ -156,8 +156,8 @@ function EnquiryModal({ room, onClose }) {
           </div>
         ) : (
           <>
-            <div className="modal-body">
-              <form ref={formRef} id="enquiry-form" onSubmit={handleSubmit} noValidate>
+           <form ref={formRef} className="modal-form-container" onSubmit={handleSubmit} noValidate>
+             <div className="modal-body">
                 {/* Row 1 */}
                 <div className="modal-form-row">
                   <div className="modal-form-group">
@@ -222,19 +222,19 @@ function EnquiryModal({ room, onClose }) {
                       : 'Could not send. Please call +91 82207 57067 directly.'}
                   </p>
                 )}
-              </form>
-            </div>
+             </div>
 
-            {/* Sticky Footer */}
-            <div className="modal-footer">
-              <button type="button" className="modal-cancel-btn" onClick={close}>Cancel</button>
-              <button type="submit" form="enquiry-form" className="btn-gold modal-submit-btn"
-                disabled={status === 'sending'}>
-                {status === 'sending'
-                  ? <><span className="modal-spinner" /> Sending…</>
-                  : 'Send Enquiry →'}
-              </button>
-            </div>
+             {/* Sticky Footer — inside form so submit button works natively on all devices */}
+             <div className="modal-footer">
+               <button type="button" className="modal-cancel-btn" onClick={close}>Cancel</button>
+               <button type="submit" className="btn-gold modal-submit-btn"
+                 disabled={status === 'sending'}>
+                 {status === 'sending'
+                   ? <><span className="modal-spinner" /> Sending…</>
+                   : 'Send Enquiry →'}
+               </button>
+             </div>
+           </form>
           </>
         )}
       </motion.div>
