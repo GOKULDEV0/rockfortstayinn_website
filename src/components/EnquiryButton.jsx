@@ -1,93 +1,57 @@
 import { useState, useEffect } from 'react'
+import emailjs from '@emailjs/browser'
 
+const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+
+const INIT = { name: '', phone: '', email: '', room: '', checkin: '', checkout: '', message: '' }
 
 function EnquiryButton() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen]   = useState(false)
+  const [form, setForm]       = useState(INIT)
+  const [status, setStatus]   = useState('idle') // idle | sending | success | error
+  const today = new Date().toISOString().split('T')[0]
 
-  // Form state
-  const [formData, setFormData] = useState({
-    name: '',
-    contact: '',
-    email: '',
-    roomType: 'Single Room',
-    guests: '1',
-    checkin: '',
-    duration: '1',
-    checkout: '',
-    message: '',
-  })
-
-  // Set default checkin to today
-  useEffect(() => {
-    const today = new Date()
-    const yyyy = today.getFullYear()
-    const mm = String(today.getMonth() + 1).padStart(2, '0')
-    const dd = String(today.getDate()).padStart(2, '0')
-    setFormData(prev => ({ ...prev, checkin: `${yyyy}-${mm}-${dd}` }))
-  }, [])
-
-  // Auto-calculate checkout when checkin or duration changes
-  useEffect(() => {
-    if (formData.checkin && parseInt(formData.duration) > 0) {
-      const checkinDate = new Date(formData.checkin)
-      const checkoutDate = new Date(checkinDate.getTime() + parseInt(formData.duration) * 24 * 60 * 60 * 1000)
-      const yyyy = checkoutDate.getFullYear()
-      const mm = String(checkoutDate.getMonth() + 1).padStart(2, '0')
-      const dd = String(checkoutDate.getDate()).padStart(2, '0')
-      setFormData(prev => ({ ...prev, checkout: `${yyyy}-${mm}-${dd}` }))
-    }
-  }, [formData.checkin, formData.duration])
-
-  // Lock body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+  function handleChange(e) {
+    const { name, value } = e.target
+    setForm(prev => {
+      const next = { ...prev, [name]: value }
+      if (name === 'checkin' && next.checkout && next.checkout < value) next.checkout = value
+      return next
+    })
   }
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault()
-
-    const { name, contact, email, roomType, guests, checkin, duration, checkout, message } = formData
-
-    if (!name || !contact || !email || !checkin) {
-      alert('Please fill in all mandatory fields.')
-      return
+    if (!form.name.trim() || !form.phone.trim()) { setStatus('error'); return }
+    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) { setStatus('error'); return }
+    setStatus('sending')
+    try {
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+        name:     form.name,
+        phone:    form.phone,
+        email:    form.email    || 'Not provided',
+        room:     form.room     || 'Not specified',
+        checkin:  form.checkin  || 'Not specified',
+        checkout: form.checkout || 'Not specified',
+        message:  form.message  || 'No special requests',
+      }, { publicKey: PUBLIC_KEY })
+      setStatus('success')
+    } catch {
+      setStatus('error')
     }
+  }
 
-    const recipient = 'karthik@rockfortstayinn.com'
-    const subject = encodeURIComponent(`Booking Enquiry from ${name} — ${roomType}`)
-    const body = encodeURIComponent(
-      `Dear Rockfort Stay Inn Team,\n\n` +
-      `I would like to enquire about room availability. Please find my details below:\n\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `  GUEST DETAILS\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `  Full Name       : ${name}\n` +
-      `  Contact Number   : ${contact}\n` +
-      `  Email Address    : ${email}\n\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `  BOOKING PREFERENCES\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `  Room Type        : ${roomType}\n` +
-      `  Number of Guests : ${guests}\n` +
-      `  Check-in Date    : ${checkin}\n` +
-      `  Duration         : ${duration} Night(s)\n` +
-      `  Check-out Date   : ${checkout}\n\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `  ADDITIONAL MESSAGE\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `${message || 'No additional message.'}\n\n` +
-      `Looking forward to your response.\n\n` +
-      `Warm regards,\n${name}\n${contact}`
-    )
-
-    window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`
-
+  function handleClose() {
     setIsOpen(false)
+    // Reset form after close animation
+    setTimeout(() => { setForm(INIT); setStatus('idle') }, 300)
   }
 
   return (
@@ -102,91 +66,123 @@ function EnquiryButton() {
       </button>
 
       {/* ── Modal Overlay ── */}
-      <div className={`enquiry-overlay ${isOpen ? 'open' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) setIsOpen(false) }}>
-        <div className="enquiry-modal">
-          <button className="enquiry-close" onClick={() => setIsOpen(false)} aria-label="Close">×</button>
+      {isOpen && (
+        <div className="enquiry-overlay open" onClick={e => { if (e.target === e.currentTarget) handleClose() }}>
+          <div className="enquiry-modal">
 
-          <div className="enquiry-modal-header">
-            <h3>
-              <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
-              Book Your Stay
-            </h3>
-            <p>Fill in your booking details below. Your enquiry will be emailed directly to our reservations team.</p>
+            {/* ── Sticky Header ── */}
+            <div className="enquiry-modal-header">
+              <div className="enquiry-modal-header-text">
+                <span className="enquiry-modal-label">✦ Book Your Stay</span>
+                <h3>Send Enquiry</h3>
+              </div>
+              <button className="enquiry-close" onClick={handleClose} aria-label="Close">✕</button>
+            </div>
+
+            {status === 'success' ? (
+              <>
+                <div className="enquiry-modal-body enquiry-success">
+                  <div className="enquiry-success-icon">✓</div>
+                  <h4>Enquiry Sent!</h4>
+                  <p>Thank you! We've received your booking request and will contact you shortly.</p>
+                  <p className="enquiry-urgent">For urgent booking: <strong>+91 82207 57067</strong></p>
+                </div>
+                <div className="enquiry-modal-footer">
+                  <button className="enquiry-submit-btn" onClick={handleClose}>Close</button>
+                </div>
+              </>
+            ) : (
+              <form className="enquiry-form-container" onSubmit={handleSubmit} noValidate>
+                <div className="enquiry-modal-body">
+
+                  {/* Full Name */}
+                  <div className="eq-form-group">
+                    <label htmlFor="eq-name">Full Name *</label>
+                    <input id="eq-name" name="name" type="text"
+                      placeholder="Enter your full name"
+                      value={form.name} onChange={handleChange} autoComplete="name" />
+                  </div>
+
+                  {/* Contact Number + Email */}
+                  <div className="eq-form-row">
+                    <div className="eq-form-group">
+                      <label htmlFor="eq-phone">Contact Number *</label>
+                      <input id="eq-phone" name="phone" type="tel"
+                        placeholder="+91 XXXXX XXXXX"
+                        value={form.phone} onChange={handleChange} autoComplete="tel" />
+                    </div>
+                    <div className="eq-form-group">
+                      <label htmlFor="eq-email">Email Address</label>
+                      <input id="eq-email" name="email" type="email"
+                        placeholder="you@example.com"
+                        value={form.email} onChange={handleChange} autoComplete="email" />
+                    </div>
+                  </div>
+
+                  {/* Room Type */}
+                  <div className="eq-form-group">
+                    <label htmlFor="eq-room">Room Preference</label>
+                    <select id="eq-room" name="room" value={form.room} onChange={handleChange}>
+                      <option value="">Select a room type</option>
+                      <option value="Executive Room (1 Bedroom)">Executive Room — 1 Bedroom</option>
+                      <option value="Deluxe Suite (2 Bedrooms)">Deluxe Suite — 2 Bedrooms</option>
+                      <option value="Grand Residence (Full Apartment)">Grand Residence — Full Apartment</option>
+                    </select>
+                  </div>
+
+                  {/* Check-in + Check-out */}
+                  <div className="eq-form-row">
+                    <div className="eq-form-group">
+                      <label htmlFor="eq-checkin">Check-in Date</label>
+                      <input id="eq-checkin" name="checkin" type="date"
+                        value={form.checkin} onChange={handleChange} min={today} />
+                    </div>
+                    <div className="eq-form-group">
+                      <label htmlFor="eq-checkout">Check-out Date</label>
+                      <input id="eq-checkout" name="checkout" type="date"
+                        value={form.checkout} onChange={handleChange}
+                        min={form.checkin || today} />
+                    </div>
+                  </div>
+
+                  {/* Message */}
+                  <div className="eq-form-group">
+                    <label htmlFor="eq-message">Message / Special Requests</label>
+                    <textarea id="eq-message" name="message" rows={3}
+                      placeholder="Any special requirements or questions..."
+                      value={form.message} onChange={handleChange} />
+                  </div>
+
+                  {status === 'error' && (
+                    <p className="eq-error">
+                      ⚠️ {!form.name.trim() || !form.phone.trim()
+                        ? 'Please fill in your Name and Contact Number.'
+                        : 'Could not send. Please call +91 82207 57067 directly.'}
+                    </p>
+                  )}
+                </div>
+
+                {/* ── Sticky Footer ── */}
+                <div className="enquiry-modal-footer">
+                  <button type="button" className="eq-cancel-btn" onClick={handleClose}>Cancel</button>
+                  <button type="submit" className="enquiry-submit-btn" disabled={status === 'sending'}>
+                    {status === 'sending' ? (
+                      <><span className="eq-spinner" /> Sending…</>
+                    ) : (
+                      <>
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+                        </svg>
+                        Send Enquiry
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
-
-          <form onSubmit={handleSubmit}>
-            <div className="enquiry-form-grid">
-
-              {/* Full Name */}
-              <div className="enquiry-form-group full-width">
-                <label>Full Name <span className="required-star">*</span></label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Enter your full name" required />
-              </div>
-
-              {/* Contact */}
-              <div className="enquiry-form-group">
-                <label>Contact Number <span className="required-star">*</span></label>
-                <input type="tel" name="contact" value={formData.contact} onChange={handleChange} placeholder="+91 XXXXX XXXXX" required />
-              </div>
-
-              {/* Email */}
-              <div className="enquiry-form-group">
-                <label>Email Address <span className="required-star">*</span></label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="you@example.com" required />
-              </div>
-
-              {/* Room Type */}
-              <div className="enquiry-form-group">
-                <label>Room Type <span className="required-star">*</span></label>
-                <select name="roomType" value={formData.roomType} onChange={handleChange}>
-                  <option value="Single Room">Single Room (1 Bedroom, Shared Hall &amp; Kitchen)</option>
-                  <option value="Two Rooms">Two Rooms (2 Bedrooms, Shared Hall &amp; Kitchen)</option>
-                  <option value="Full Apartment">Full Apartment (All 3 Bedrooms, Private Use)</option>
-                  <option value="Long Stay Package">Long Stay Package (Monthly)</option>
-                  <option value="Corporate Bulk Booking">Corporate Bulk Booking</option>
-                </select>
-              </div>
-
-              {/* Number of Guests */}
-              <div className="enquiry-form-group">
-                <label>Number of Guests</label>
-                <input type="number" name="guests" value={formData.guests} onChange={handleChange} min="1" max="10" />
-              </div>
-
-              {/* Check-in Date */}
-              <div className="enquiry-form-group">
-                <label>Check-in Date <span className="required-star">*</span></label>
-                <input type="date" name="checkin" value={formData.checkin} onChange={handleChange} required />
-              </div>
-
-              {/* Duration */}
-              <div className="enquiry-form-group">
-                <label>Duration (Nights) <span className="required-star">*</span></label>
-                <input type="number" name="duration" value={formData.duration} onChange={handleChange} min="1" required />
-              </div>
-
-              {/* Checkout (auto-calculated) */}
-              <div className="enquiry-form-group full-width">
-                <label>Check-out Date (Auto-Calculated)</label>
-                <input type="date" name="checkout" value={formData.checkout} readOnly />
-              </div>
-
-              {/* Message */}
-              <div className="enquiry-form-group full-width">
-                <label>Special Requests / Message</label>
-                <textarea name="message" value={formData.message} onChange={handleChange} rows="3" placeholder="Any special requirements, dietary needs, airport pickup, etc." />
-              </div>
-            </div>
-
-            <div className="enquiry-submit-area">
-              <button type="submit" className="enquiry-submit-btn">
-                <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
-                <span>Send Enquiry</span>
-              </button>
-            </div>
-          </form>
         </div>
-      </div>
+      )}
     </>
   )
 }
