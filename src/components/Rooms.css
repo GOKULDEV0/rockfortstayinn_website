@@ -260,30 +260,30 @@
   padding: 16px;
 }
 
+/* Modal box: fixed height so header+footer sticky, body scrolls */
 .modal-box {
   background: #2a1d2e;
   border: 1px solid rgba(178,134,34,0.3);
   border-radius: 6px;
   width: 100%;
-  max-width: 560px;
-  max-height: 92vh;
+  max-width: 580px;
+  height: 90vh;
+  max-height: 680px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
 }
 
-/* Sticky Header */
+/* ── Sticky Header (always visible at top) ── */
 .modal-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 22px 24px 18px;
+  padding: 20px 24px 16px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   background: #2a1d2e;
   flex-shrink: 0;
-  position: sticky;
-  top: 0;
   z-index: 2;
 }
 
@@ -296,7 +296,7 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .modal-title {
@@ -325,21 +325,25 @@
   background: rgba(255,255,255,0.12);
 }
 
-/* Scrollable Body */
+/* ── Form container (flex column fills remaining space) ── */
 .modal-form-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   min-height: 0;
+  overflow: hidden;
 }
 
+/* ── Scrollable Body ── */
 .modal-body {
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
+  padding: 22px 24px;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .modal-body::-webkit-scrollbar { width: 4px; }
@@ -351,17 +355,13 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-  margin-bottom: 14px;
 }
 
 .modal-form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-bottom: 14px;
 }
-
-.modal-form-row .modal-form-group { margin-bottom: 0; }
 
 .modal-form-group label {
   font-size: 10px;
@@ -372,6 +372,7 @@
 }
 
 .modal-form-group input,
+.modal-form-group select,
 .modal-form-group textarea {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.1);
@@ -385,7 +386,23 @@
   width: 100%;
 }
 
+.modal-form-group select {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b28622' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-color: rgba(255,255,255,0.04);
+  padding-right: 38px;
+}
+
+.modal-form-group select option {
+  background: #3a293e;
+  color: var(--white);
+}
+
 .modal-form-group input:focus,
+.modal-form-group select:focus,
 .modal-form-group textarea:focus {
   border-color: var(--gold);
   background: rgba(178,134,34,0.05);
@@ -399,12 +416,6 @@
   cursor: pointer;
 }
 
-.modal-readonly {
-  opacity: 0.6;
-  cursor: default !important;
-  color: var(--gold) !important;
-}
-
 .modal-form-group textarea { resize: vertical; min-height: 80px; }
 
 .modal-error {
@@ -414,10 +425,9 @@
   background: rgba(220,60,60,0.08);
   border: 1px solid rgba(220,60,60,0.2);
   border-radius: 3px;
-  margin-bottom: 4px;
 }
 
-/* Sticky Footer */
+/* ── Sticky Footer (always visible at bottom) ── */
 .modal-footer {
   display: flex;
   align-items: center;
@@ -427,8 +437,6 @@
   border-top: 1px solid rgba(255,255,255,0.08);
   background: #231828;
   flex-shrink: 0;
-  position: sticky;
-  bottom: 0;
   z-index: 2;
 }
 
@@ -442,6 +450,7 @@
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.2s;
+  font-family: var(--font-body);
 }
 
 .modal-cancel-btn:hover {
@@ -453,15 +462,11 @@
   padding: 12px 28px;
   font-size: 11px;
   letter-spacing: 2px;
-  cursor: pointer;
-  border: none;
   display: flex;
   align-items: center;
   gap: 8px;
   white-space: nowrap;
 }
-
-.modal-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .modal-spinner {
   width: 14px;
@@ -471,17 +476,16 @@
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   display: inline-block;
+  flex-shrink: 0;
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Success */
+/* ── Success screen ── */
 .modal-success {
-  padding: 48px 24px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  text-align: center;
   gap: 14px;
 }
 
@@ -496,7 +500,7 @@
   justify-content: center;
   font-size: 1.8rem;
   color: var(--gold);
-  margin-bottom: 4px;
+  flex-shrink: 0;
 }
 
 .modal-success h4 {
@@ -518,25 +522,32 @@
   font-size: 0.95rem !important;
 }
 
-.modal-close-btn {
-  padding: 12px 32px;
-  border: none;
-  cursor: pointer;
-  margin-top: 8px;
-}
-
-/* Mobile */
+/* ── Mobile: bottom-sheet style ── */
 @media (max-width: 600px) {
-  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
   .modal-box {
     max-width: 100%;
-    max-height: 95vh;
+    width: 100%;
+    height: 92vh;
+    max-height: 92vh;
     border-radius: 16px 16px 0 0;
     border-bottom: none;
   }
-  .modal-form-row { grid-template-columns: 1fr; gap: 0; }
-  .modal-footer { padding: 14px 16px; }
+  .modal-form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .modal-footer {
+    padding: 14px 16px;
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+  .modal-submit-btn {
+    flex: 1;
+    justify-content: center;
+  }
   .modal-body { padding: 16px; }
-  .modal-header { padding: 18px 16px 14px; }
-  .modal-submit-btn { flex: 1; justify-content: center; }
+  .modal-header { padding: 16px 16px 14px; }
 }
